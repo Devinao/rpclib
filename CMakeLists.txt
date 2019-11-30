@@ -30,6 +30,13 @@ option(RPCLIB_MSVC_STATIC_RUNTIME
   "MSVC only: build with /MT instead of /MD"
   OFF)
 
+option(WITH_CV22_CHIP
+  "whether on cv22 platform"
+  OFF)
+
+option(BUILD_SHARED_LIBS
+  "whether build shared libs"
+  OFF)
 #
 # Other configuration values
 #
@@ -90,7 +97,7 @@ set(DEP_SOURCES
   ${RPCLIB_DEPENDENCIES}/src/format.cc
   ${RPCLIB_DEPENDENCIES}/src/posix.cc)
 
-add_library(${PROJECT_NAME}
+set(LIB_SRCS
   lib/rpc/dispatcher.cc
   lib/rpc/server.cc
   lib/rpc/client.cc
@@ -106,10 +113,27 @@ add_library(${PROJECT_NAME}
   ${DEP_HEADERS}
   ${RPCLIB_HEADERS})
 
+if (BUILD_SHARED_LIBS)
+    add_library(${PROJECT_NAME} SHARED ${LIB_SRCS})
+else()
+    add_library(${PROJECT_NAME} STATIC ${LIB_SRCS})
+endif()
+
 # Perform steps and checks required for MSVC support
 rpclib_msvc_support()
 
 set(RPCLIB_BUILD_FLAGS "") # reset flags
+
+if (WITH_CV22_CHIP)
+    include_directories(
+        ${CV22_SYS_INCLUDE_DIR}
+        ${CV22_INCLUDE_DIR}
+        )
+
+    link_directories(
+        ${CV22_LIB_DIR}
+        )
+endif()
 
 if(RPCLIB_ENABLE_COVERAGE)
   enable_coverage(${PROJECT_NAME})
