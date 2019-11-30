@@ -142,10 +142,10 @@ struct client::impl {
     using call_t =
         std::pair<std::string, std::promise<RPCLIB_MSGPACK::object_handle>>;
 
-    client *parent_;
-    RPCLIB_ASIO::io_service io_;
-    RPCLIB_ASIO::strand strand_;
-    std::atomic<int> call_idx_; /// The index of the last call made
+    client *parent_;                               // 对应的client指针
+    RPCLIB_ASIO::io_service io_;                   // 异步io事件调度器
+    RPCLIB_ASIO::strand strand_;                   // 涉及到多线程访问共享资源，借助strand类，就可以让多个事件处理函数依次执行
+    std::atomic<int> call_idx_;                    // The index of the last call made
     std::unordered_map<uint32_t, call_t> ongoing_calls_;
     std::string addr_;
     uint16_t port_;

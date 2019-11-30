@@ -12,6 +12,6 @@ find_package(rpclib REQUIRED)
 include_directories(${RPCLIB_INCLUDE_DIR})
 
 add_executable(server main.cc)
-target_link_libraries(server ${RPCLIB_LIBS})
+target_link_libraries(server ${RPCLIB_LIBS} pthread)
 set_property(TARGET server PROPERTY CXX_STANDARD 14)
 
