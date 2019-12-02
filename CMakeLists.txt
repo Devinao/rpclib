@@ -173,7 +173,7 @@ target_compile_definitions(${PROJECT_NAME}
     "RPCLIB_FMT=clmdep_fmt"
   PUBLIC
     "${RPCLIB_OS_DEF}"
-    "RPCLIB_MSGPACK=clmdep_msgpack"
+    "RPCLIB_MSGPACK=msgpack"
   )
 
 if(RPCLIB_ENABLE_LOGGING)
