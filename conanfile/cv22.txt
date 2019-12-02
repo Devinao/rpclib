@@ -1,0 +1,14 @@
+[requires]
+msgpack-c/2.1.5@xuzhixiang/stable
+
+# static libs
+
+# rs_cnn_acc
+
+[generators]
+cmake
+
+[options]
+
+[imports]
+lib,*.so -> ./runtime

@@ -177,7 +177,7 @@ if [ $Target = "armv8-android" ]; then
         -DANDROID_ABI=arm64-v8a \
         ..
 elif [ $Target = "linux" ]; then
-    #conan install ../../conanfile/linux.txt -s os=Linux -s arch=x86_64
+    conan install ../../conanfile/linux.txt -s os=Linux -s arch=x86_64
     install_dir=${HOME}/data3/conan_devin/rpclib/binaries/linux/
     cmake --clean_first \
         "-DCMAKE_INSTALL_PREFIX=${install_dir}" \
@@ -202,6 +202,7 @@ elif [ $Target = "armv7-linux" ]; then
         -DCMAKE_AR=/usr/bin/arm-linux-gnueabihf-gcc-ar-4.9 \
         ..
 elif [ $Target = "cv22" ]; then
+    conan install ../../conanfile/cv22.txt -s os=Linux -s arch=armv7hf
     if [ $Project = "apa" ]; then
         cv22_sw_sdk_dir=${HOME}/data3/amba/a1ba-sw-sdk/
     else

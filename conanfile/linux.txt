@@ -1,0 +1,12 @@
+[requires]
+msgpack-c/2.1.5@xuzhixiang/stable
+
+# static libs
+
+[generators]
+cmake
+
+[options]
+
+[imports]
+lib,*.so -> ./runtime
