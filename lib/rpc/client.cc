@@ -71,7 +71,7 @@ struct client::impl {
                     LOG_TRACE("Read chunk of size {}", length);
                     pac_.buffer_consumed(length);
 
-                    RPCLIB_MSGPACK::unpacked result;
+                    msgpack::unpacked result;
                     while (pac_.next(result)) {
                         auto r = response(std::move(result));
                         auto id = r.get_id();
@@ -123,7 +123,7 @@ struct client::impl {
 
     //! \brief Waits for the write queue and writes any buffers to the network
     //! connection. Should be executed throught strand_.
-    void write(RPCLIB_MSGPACK::sbuffer item) {
+    void write(msgpack::sbuffer item) {
         writer_->write(std::move(item));
     }
 
@@ -140,7 +140,7 @@ struct client::impl {
     }
 
     using call_t =
-        std::pair<std::string, std::promise<RPCLIB_MSGPACK::object_handle>>;
+        std::pair<std::string, std::promise<msgpack::object_handle>>;
 
     client *parent_;                               // 对应的client指针
     RPCLIB_ASIO::io_service io_;                   // 异步io事件调度器
@@ -149,7 +149,7 @@ struct client::impl {
     std::unordered_map<uint32_t, call_t> ongoing_calls_;
     std::string addr_;
     uint16_t port_;
-    RPCLIB_MSGPACK::unpacker pac_;
+    msgpack::unpacker pac_;
     std::atomic_bool is_connected_;
     std::condition_variable conn_finished_;
     std::mutex mut_connection_finished_;
@@ -196,7 +196,7 @@ int client::get_next_call_idx() {
     return pimpl->call_idx_;
 }
 
-void client::post(std::shared_ptr<RPCLIB_MSGPACK::sbuffer> buffer, int idx,
+void client::post(std::shared_ptr<msgpack::sbuffer> buffer, int idx,
                   std::string const &func_name,
                   std::shared_ptr<rsp_promise> p) {
     pimpl->strand_.post([=]() {
@@ -206,7 +206,7 @@ void client::post(std::shared_ptr<RPCLIB_MSGPACK::sbuffer> buffer, int idx,
     });
 }
 
-void client::post(RPCLIB_MSGPACK::sbuffer *buffer) {
+void client::post(msgpack::sbuffer *buffer) {
     pimpl->strand_.post([=]() {
         pimpl->write(std::move(*buffer));
         delete buffer;

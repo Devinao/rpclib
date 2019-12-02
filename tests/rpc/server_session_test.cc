@@ -40,9 +40,9 @@ TEST_F(server_session_test, consume_big_param) {
 
 TEST_F(server_session_test, connection_closed_properly) {
 #ifdef RPCLIB_WIN32
-	const unsigned max_tries = 10;
+    const unsigned max_tries = 10;
 #else
-	const unsigned max_tries = 1000;
+    const unsigned max_tries = 1000;
 #endif
     for (unsigned counter = 0; counter < max_tries; ++counter) {
         rpc::client client("localhost", rpc::constants::DEFAULT_PORT);
@@ -53,8 +53,8 @@ TEST_F(server_session_test, connection_closed_properly) {
 
 TEST_F(server_session_test, session_id_unique) {
     rpc::client c2("localhost", rpc::constants::DEFAULT_PORT);
-    auto sid1 = c.call("get_sid").as<rpc::session_id_t>();
-    auto sid2 = c2.call("get_sid").as<rpc::session_id_t>();
+    auto sid1 = c.call("get_sid").get().as<rpc::session_id_t>();
+    auto sid2 = c2.call("get_sid").get().as<rpc::session_id_t>();
     EXPECT_NE(sid1, sid2);
 }
 
@@ -68,7 +68,7 @@ TEST(server_session_test_bug153, bug_153_crash_on_client_timeout) {
 
     auto client = std::unique_ptr<rpc::client>(new rpc::client("localhost", rpc::constants::DEFAULT_PORT));
     client->set_timeout(5);
-  
+
     try {
         client->call("bug_153");
     } catch(rpc::timeout& ) {

@@ -5,8 +5,8 @@
 
 #include <memory>
 
+#include "msgpack.hpp"
 #include "rpc/config.h"
-#include "rpc/msgpack.hpp"
 
 #include "rpc/detail/util.h"
 
@@ -62,7 +62,7 @@ public:
     friend class rpc::detail::server_session;
 
 private:
-    RPCLIB_MSGPACK::object_handle error_, resp_;
+    msgpack::object_handle error_, resp_;
     bool resp_enabled_ = true;
 };
 }

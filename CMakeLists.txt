@@ -124,6 +124,10 @@ rpclib_msvc_support()
 
 set(RPCLIB_BUILD_FLAGS "") # reset flags
 
+# conan support
+INCLUDE(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 if (WITH_CV22_CHIP)
     include_directories(
         ${CV22_SYS_INCLUDE_DIR}
@@ -173,7 +177,6 @@ target_compile_definitions(${PROJECT_NAME}
     "RPCLIB_FMT=clmdep_fmt"
   PUBLIC
     "${RPCLIB_OS_DEF}"
-    "RPCLIB_MSGPACK=msgpack"
   )
 
 if(RPCLIB_ENABLE_LOGGING)

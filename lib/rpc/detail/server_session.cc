@@ -52,13 +52,13 @@ void server_session::do_read() {
             if (exit_) { return; }
             if (!ec) {
                 pac_.buffer_consumed(length);
-                RPCLIB_MSGPACK::unpacked result;
+                msgpack::unpacked result;
                 while (pac_.next(result) && !exit_) {
                     auto msg = result.get();
                     output_buf_.clear();
 
                     // any worker thread can take this call
-                    auto z = std::shared_ptr<RPCLIB_MSGPACK::zone>(
+                    auto z = std::shared_ptr<msgpack::zone>(
                         result.zone().release());
                     io_->post([this, msg, z]() {
                         this_handler().clear();

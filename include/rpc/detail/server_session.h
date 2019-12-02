@@ -7,8 +7,8 @@
 #include <memory>
 #include <vector>
 
+#include "msgpack.hpp"
 #include "rpc/config.h"
-#include "rpc/msgpack.hpp"
 
 #include "rpc/dispatcher.h"
 #include "rpc/detail/async_writer.h"
@@ -37,8 +37,8 @@ private:
     RPCLIB_ASIO::io_service *io_;
     RPCLIB_ASIO::strand read_strand_;
     std::shared_ptr<dispatcher> disp_;
-    RPCLIB_MSGPACK::unpacker pac_;
-    RPCLIB_MSGPACK::sbuffer output_buf_;
+    msgpack::unpacker pac_;
+    msgpack::sbuffer output_buf_;
     const bool suppress_exceptions_;
     RPCLIB_CREATE_LOG_CHANNEL(session)
 };
