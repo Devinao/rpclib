@@ -202,7 +202,7 @@ elif [ $Target = "armv7-linux" ]; then
         -DCMAKE_AR=/usr/bin/arm-linux-gnueabihf-gcc-ar-4.9 \
         ..
 elif [ $Target = "cv22" ]; then
-    conan install ../../conanfile/cv22.txt -s os=Linux -s arch=armv7hf
+    conan install ../../conanfile/cv22.txt -s os=Linux -s arch=armv7hf -s compiler.version=8.2
     if [ $Project = "apa" ]; then
         cv22_sw_sdk_dir=${HOME}/data3/amba/a1ba-sw-sdk/
     else
